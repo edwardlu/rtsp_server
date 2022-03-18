@@ -1,0 +1,6 @@
+Example PLAY Response:
+RTSP/1.0 200 OK\r\n
+CSeq: 6\r\n
+Session: 337474243\r\n
+RTP-Info: url=rtsp://192.17.1.63:554/trackID=1;seq=3658;rtptime=1710363406,url=rtsp://192.17.1.63:554/trackID=2;seq=6598;rtptime=4065225152\r\n
+Date: Fri, Apr 10 2020 19:07:20 GMT\r\n\r\n

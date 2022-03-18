@@ -1,0 +1,6 @@
+{
+"RTSP_SERVER_IP"   : "192.168.1.10",
+"RTSP_SERVER_PORT" : "8654",
+"RTP_SERVER_PORT"  : "55532",
+"H264_MEDIA_FILE"  : "../data/test.h264"
+}
