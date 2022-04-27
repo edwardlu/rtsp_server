@@ -117,7 +117,7 @@ void Process_CMD_DESCRIBE(std::string& RtpDes, std::string& IpAddr, std::string&
 	RtpDes.clear();
 	
 	char sdp[CLIENT_REP_MAX_LEN];
-	char result[CLIENT_REP_MAX_LEN];
+	//char result[CLIENT_REP_MAX_LEN+];
 
 	sprintf(sdp,"v=0\r\n"
 			"o=tusimple_rtsp_live 9%ld 1 IN IP4 %s\r\n"
@@ -126,7 +126,7 @@ void Process_CMD_DESCRIBE(std::string& RtpDes, std::string& IpAddr, std::string&
 			"m=video 0 RTP/AVP 96\r\n"
 			"a=rtpmap:96 H264/90000\r\n"
 			"a=control:track0\r\n", time(NULL), IpAddr.c_str());
-	
+	char result[CLIENT_REP_MAX_LEN+(int)strlen(sdp)];
 	sprintf(result, "RTSP/1.0 200 OK\r\n"
 			"CSeq: %d\r\n"
 			"Content-Base: %s\r\n"
