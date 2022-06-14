@@ -186,6 +186,16 @@ void RtspServerSocket::RtspPlay()
 			#endif
 				close(RtspAcceptFd);
 				MediaRun = false;
+			#ifdef MEDIA_SOURCE_LOCAL_FILE
+				
+			#else
+				//trigger the Nalu feeding quit waiting status
+				int shm_fd;
+				unsigned char *shm;
+				shm = create_shared_mem(shm_fd);
+				reader_post(shm);
+				recycle_shared_mem(shm_fd,false);
+			#endif
 				if(MediaPlayer.joinable())
 				{
 					MediaPlayer.join();
@@ -200,9 +210,15 @@ void RtspServerSocket::RtspPlay()
 void RtspServerSocket::RtpPlay(std::string& Mediafile)
 {
 	bool Ret;
-	//still need to create thread
+
+#ifdef MEDIA_SOURCE_LOCAL_FILE
 	Media = new FileOperation(Mediafile);
+#else
+	Media = new SharedMemOperation();
+#endif
+
 	Ret = Media->InitMeidaSource();
+
 	if(Ret == true)
 	{
 		//SIp,CIp,SPort,CPort

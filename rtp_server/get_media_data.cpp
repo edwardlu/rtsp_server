@@ -212,3 +212,42 @@ void FileOperation::DumpNaluHead(char *OutPut,int Len)
 	
 	FrameCount++;
 }
+
+SharedMemOperation::~SharedMemOperation()
+{
+	destory_sem(mem_addr);
+	recycle_shared_mem(shared_mem_fd,true);
+}
+
+bool SharedMemOperation::InitMeidaSource()
+{
+	bool Ret;
+	mem_addr = create_shared_mem(shared_mem_fd);
+	if(mem_addr == nullptr)
+	{
+		std::cout<<"allocate shared mem region failed"<<std::endl;
+		return false;
+	}
+	Ret = init_sem(mem_addr);
+	if(Ret == false)
+	{
+		std::cout<<"init sem in shared mem failed"<<std::endl;
+		return false;
+	}
+
+	return true;
+}
+
+void SharedMemOperation::GetNaluData(char *NaluStart,int& NaluLen)
+{
+	reader_wait(mem_addr);
+	std::cout<<"get nalu at "<<get_frame_count(mem_addr)<<" frame size is "<<get_byte_used(mem_addr)<<std::endl;
+	memcpy(NaluStart,(char *)get_data_area(mem_addr),get_byte_used(mem_addr));
+	NaluLen = get_byte_used(mem_addr);
+	writer_post(mem_addr);
+}
+
+bool SharedMemOperation::IsMediaSourceFinish()
+{
+	return false; //live video does not stop unless camera stops
+}

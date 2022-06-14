@@ -48,11 +48,24 @@ private:
 	std::string MeidaFile;
 };
 
-class NvidiaEncoderOperation : public MediaSource
+#include "shared_mem.h"
+
+class SharedMemOperation : public MediaSource
 {
 public:
-	NvidiaEncoderOperation();
-	~NvidiaEncoderOperation();
+	SharedMemOperation() = default;
+	~SharedMemOperation();
+	bool InitMeidaSource() override;
+	bool IsMediaSourceFinish() override;
 	void GetNaluData(char *NaluStart,int& NaluLen) override;
+
 private:
+	void ShowSharedMemInfo(unsigned char *shared_mem)
+	{
+		struct region *reg = (struct region *)shared_mem;
+		std::cout<<"block name : "<<reg->region_desc<<std::endl;
+	}
+
+	int shared_mem_fd;
+	unsigned char *mem_addr = {nullptr}; 
 };

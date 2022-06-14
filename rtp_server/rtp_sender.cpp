@@ -153,7 +153,8 @@ int RtpSender::RtpSendH264Frame(char *NaluFrame,int NaluLen)
 		}
 	}
 	RtpPack->rtpHeader.timestamp += 90000/25;
+#ifdef MEDIA_SOURCE_LOCAL_FILE
 	usleep(1000*1000/25);
-
+#endif
 	return sendBytes;
 }

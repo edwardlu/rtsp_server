@@ -14,7 +14,7 @@
 
 #define RTSP_MAX_SERVER_BACKLOG 1 //only one
 #define RTSP_RECV_BUF_LENGTH 1500
-
+#define DEBUG_RTSP 1
 using json = nlohmann::json;
 
 class RtspServerSocket : public RtspServerScoektImpl
